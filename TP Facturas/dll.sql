@@ -1,4 +1,5 @@
 create database TP_Facturas
+use TP_Facturas
 
 CREATE TABLE Cliente (
 	id_cliente int identity(1,1) CONSTRAINT PK_Cliente PRIMARY KEY
