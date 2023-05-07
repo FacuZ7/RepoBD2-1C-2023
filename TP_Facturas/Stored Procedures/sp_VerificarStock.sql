@@ -8,7 +8,11 @@ CREATE PROCEDURE dbo.sp_VerificarStock (
 	@id_producto int
 )
 
-AS
-  select stock from Producto where id_producto = @id_producto
-
+AS	
+	select 
+		stock 
+	from 
+		Producto 
+	where 
+		id_producto = @id_producto
 go
