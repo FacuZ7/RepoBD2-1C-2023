@@ -116,3 +116,6 @@ CREATE TABLE notificacion_cambio_estado(
 )
 GO
 
+ALTER TABLE cliente_prospecto 
+ADD CONSTRAINT chk_mayor_de_edad CHECK((DATEDIFF(YEAR,fecha_nac,GETDATE()) = 18 AND dbo.chk_Mayor_De_Edad(fecha_nac)=1) OR DATEDIFF(YEAR,fecha_nac,GETDATE()) > 18)
+
