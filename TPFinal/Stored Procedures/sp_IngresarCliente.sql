@@ -15,7 +15,7 @@ CREATE PROCEDURE dbo.sp_IngresarCliente (
 
 AS
 
-	if @nombre = '' AND @apellido = '' AND @tipo_documento_id = '' AND @nro_documento = '' 
+	if @nombre = '' OR @apellido = '' OR @tipo_documento_id = '' OR @nro_documento = '' 
 	BEGIN
 	PRINT 'Alguno de los datos ingresados esta vacio.'
 	END
