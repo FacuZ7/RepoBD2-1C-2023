@@ -34,7 +34,7 @@ CREATE TABLE cliente_prospecto (
 	,tipo_documento_id int not null CONSTRAINT FK_tipo_documento_cliente_prospecto foreign key (tipo_documento_id) references tipo_documento(id_tipo_documento)
 	,nro_documento varchar(8) CONSTRAINT chk_ochoCaracteresObligatorio CHECK (LEN(nro_documento) = 8) --obligatoriamente 8
 	,email varchar(100) CONSTRAINT chk_formatoEmail CHECK (email LIKE '%_@__%.__%')
-	,fecha_nac date
+	,fecha_nac date 
 	,estado_cliente_id int not null CONSTRAINT FK_estado_cliente_cliente_prospecto foreign key(estado_cliente_id) references estado_cliente(id_estado_cliente)
 )
 GO
@@ -114,8 +114,6 @@ CREATE TABLE notificacion_cambio_estado(
 	,cliente_prospecto_id int CONSTRAINT FK_notificacion_cambio_estado_cliente_prospecto FOREIGN KEY (cliente_prospecto_id) REFERENCES cliente_prospecto(id_cliente_prospecto)
 	,fecha datetime 
 )
-GO
 
-ALTER TABLE cliente_prospecto 
-ADD CONSTRAINT chk_mayor_de_edad CHECK((DATEDIFF(YEAR,fecha_nac,GETDATE()) = 18 AND dbo.chk_Mayor_De_Edad(fecha_nac)=1) OR DATEDIFF(YEAR,fecha_nac,GETDATE()) > 18)
+
 
