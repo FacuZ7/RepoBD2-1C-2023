@@ -94,9 +94,9 @@ CREATE TABLE ticket(
 	,servicio_id  int CONSTRAINT FK_ticket_servicio FOREIGN KEY (servicio_id) REFERENCES servicio(id_servicio)
 	,estado_ticket_id int CONSTRAINT FK_ticket_estado_ticket FOREIGN KEY (estado_ticket_id) REFERENCES estado_ticket(id_estado_ticket)
 	,sla_id int CONSTRAINT FK_ticket_sla FOREIGN KEY (sla_id) REFERENCES sla(id_sla)
-	,fecha_creacion date
-	,fecha_resolucion date
-	,fecha_cierre date
+	,fecha_creacion datetime
+	,fecha_resolucion datetime
+	,fecha_cierre datetime
 	,cumple_sla bit
 
 )
@@ -112,7 +112,7 @@ CREATE TABLE notificacion_cambio_estado(
 	,ticket_id int CONSTRAINT FK_notificacion_cambio_estado_ticket FOREIGN KEY (ticket_id) REFERENCES ticket(id_ticket)
 	,estado_ticket_id int CONSTRAINT FK_notificacion_cambio_estado_estado_ticket FOREIGN KEY (estado_ticket_id) REFERENCES estado_ticket(id_estado_ticket)
 	,cliente_prospecto_id int CONSTRAINT FK_notificacion_cambio_estado_cliente_prospecto FOREIGN KEY (cliente_prospecto_id) REFERENCES cliente_prospecto(id_cliente_prospecto)
-	,fecha date 
+	,fecha datetime 
 )
 GO
 
