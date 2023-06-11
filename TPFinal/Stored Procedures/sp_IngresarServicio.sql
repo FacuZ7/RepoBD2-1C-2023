@@ -23,44 +23,68 @@ AS
 	ELSE 
 	BEGIN
 
-	EXEC dbo.sp_DomicilioAlta @calle, @numero, @piso, @departamento
-	Declare 
-	@id_domicilio int
-	select @id_domicilio= id_domicilio from domicilio 
-	where @calle = calle and @numero = numero and @piso = piso and @departamento = departamento
+			Declare 
+			@email varchar(100)
+			,@fecha_nac date 
 
-	if @servicio_id <> 2 
-	begin
-		if @telefono is null
-		begin 
-			print 'Para el servicio ingresado, es de necesidad que ingrese un telefono'
-		end
-		else
-		begin
-		insert into cliente_servicio VALUES(
-	@cliente_id,
-	@servicio_id,
-	@telefono,
-	@id_domicilio,
-	GETDATE(),
-	1
-	)
-		end
-	end
-	else
-	begin
-	insert into cliente_servicio VALUES(
-	@cliente_id,
-	@servicio_id,
-	null,
-	@id_domicilio,
-	GETDATE(),
-	1
-	)
-	end
-	UPDATE cliente_prospecto
-	set estado_cliente_id = 1
-	where @cliente_id = id_cliente_prospecto
+			SELECT @email = email, @fecha_nac = fecha_nac from cliente_prospecto
+			WHERE @cliente_id = id_cliente_prospecto
 
-END
+			if @email is null AND @fecha_nac is null
+			BEGIN
+			PRINT 'No se puede realizar la operacion. El prospecto no tiene ingresado su email o fecha de nacimiento.'
+			END
+
+			ELSE
+			BEGIN
+				EXEC dbo.sp_DomicilioAlta @calle, @numero, @piso, @departamento
+				Declare 
+				@id_domicilio int
+				select @id_domicilio= id_domicilio from domicilio 
+				where @calle = calle and @numero = numero and @piso = piso and @departamento = departamento
+			
+			
+
+				if @servicio_id <> 2 
+				begin
+					if @telefono is null
+					begin 
+						print 'Para el servicio ingresado, es de necesidad que ingrese un telefono'
+					end
+					else
+					begin
+					insert into cliente_servicio VALUES(
+				@cliente_id,
+				@servicio_id,
+				@telefono,
+				@id_domicilio,
+				GETDATE(),
+				1
+				)
+					end
+				end
+				else
+				begin
+				insert into cliente_servicio VALUES(
+				@cliente_id,
+				@servicio_id,
+				null,
+				@id_domicilio,
+				GETDATE(),
+				1
+				)
+				end
+				Declare 
+				@estado_cliente int
+				select @estado_cliente = estado_cliente_id from cliente_prospecto 
+				where @cliente_id = id_cliente_prospecto
+
+				if @estado_cliente <> 1 
+					begin
+					UPDATE cliente_prospecto
+					set estado_cliente_id = 1
+					where @cliente_id = id_cliente_prospecto
+					end
+			END
+	END
 
