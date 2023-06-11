@@ -110,10 +110,11 @@ GO
 CREATE TABLE notificacion_cambio_estado(
 	id_notificacion_cambio_estado int identity(1,1) primary key
 	,ticket_id int CONSTRAINT FK_notificacion_cambio_estado_ticket FOREIGN KEY (ticket_id) REFERENCES ticket(id_ticket)
-	,estado_ticket_id int CONSTRAINT FK_notificacion_cambio_estado_estado_ticket FOREIGN KEY (estado_ticket_id) REFERENCES estado_ticket(id_estado_ticket)
-	,cliente_prospecto_id int CONSTRAINT FK_notificacion_cambio_estado_cliente_prospecto FOREIGN KEY (cliente_prospecto_id) REFERENCES cliente_prospecto(id_cliente_prospecto)
+	,estado_a_cambiar int CONSTRAINT FK_notificacion_cambio_estado_estado_ticket FOREIGN KEY (estado_a_cambiar) REFERENCES estado_ticket(id_estado_ticket)
 	,fecha datetime 
 )
+
+
 
 
 

@@ -93,8 +93,23 @@ INSERT INTO cliente_servicio (cliente_id, servicio_id, telefono, domicilio_id, f
 
 INSERT INTO sla VALUES
 (1,1,12),
+(1,2,72),
+(1,3,24),
+(2,1,12),
+(2,2,72),
+(2,3,24),
+(3,1,12),
+(3,2,72),
+(3,3,24),
+(4,1,12),
+(4,2,72),
+(4,3,24),
+(5,1,12),
 (5,2,72),
-(2,3,24)
+(5,3,24),
+(6,1,12),
+(6,2,72),
+(6,3,24)
 
 INSERT INTO empleado VALUES
 ('Cristian','Bragarnik','CBRAGARNIK',1),
