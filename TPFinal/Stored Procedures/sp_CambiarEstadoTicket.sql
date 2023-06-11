@@ -27,6 +27,18 @@ AS
 				SET estado_ticket_id = @estado_ticket_id
 				WHERE @id_ticket = id_ticket
 				exec dbo.sp_EnviarNotificacion @id_ticket, @estado_ticket_id
+				IF @estado_ticket_id = 5
+				BEGIN
+					UPDATE ticket
+					SET fecha_cierre = GETDATE()
+					WHERE id_ticket = @id_ticket
+				END
+				ELSE IF @estado_ticket_id = 4
+				BEGIN
+					UPDATE ticket
+					SET fecha_resolucion = GETDATE()
+					WHERE id_ticket = @id_ticket
+				END
 			END
 			ELSE
 			BEGIN

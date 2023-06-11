@@ -36,6 +36,17 @@ begin
 			set @resultado = 0		
 		END
 	END
+	ELSE IF @estado_anterior_id = 4
+	BEGIN
+		IF @estado_ticket_id = 5
+		BEGIN
+			set @resultado = 1
+		END
+		ELSE
+		BEGIN
+			set @resultado = 0
+		END
+	END
 	ELSE
 	BEGIN
 		IF @estado_ticket_id = 2
