@@ -32,7 +32,7 @@ CREATE TABLE cliente_prospecto (
 	,nombre varchar(30) not null 
 	,apellido varchar(30) not null
 	,tipo_documento_id int not null CONSTRAINT FK_tipo_documento_cliente_prospecto foreign key (tipo_documento_id) references tipo_documento(id_tipo_documento)
-	,nro_documento varchar(8) CONSTRAINT chk_ochoCaracteresObligatorio CHECK (LEN(nro_documento) = 8) --obligatoriamente 8
+	,nro_documento varchar(8) not null CONSTRAINT chk_ochoCaracteresObligatorio CHECK (LEN(nro_documento) = 8) --obligatoriamente 8
 	,email varchar(100) CONSTRAINT chk_formatoEmail CHECK (email LIKE '%_@__%.__%')
 	,fecha_nac date 
 	,estado_cliente_id int not null CONSTRAINT FK_estado_cliente_cliente_prospecto foreign key(estado_cliente_id) references estado_cliente(id_estado_cliente)
@@ -68,7 +68,7 @@ CREATE TABLE tipologia(
 GO
 CREATE TABLE sla(
 	id_sla int identity(1,1) primary key
-	,tipologia_id int CONSTRAINT FK_sla_tipologia FOREIGN KEY (tipologia_id) REFERENCES tipologia(id_tipologia)
+	,tipologia_id int not null CONSTRAINT FK_sla_tipologia FOREIGN KEY (tipologia_id) REFERENCES tipologia(id_tipologia)
 	,servicio_id int CONSTRAINT FK_sla_servicio FOREIGN KEY (servicio_id) REFERENCES servicio(id_servicio)
 	,tiempo_sla int 
 )
@@ -78,7 +78,7 @@ CREATE TABLE empleado(
 	,nombre varchar(25) not null
 	,apellido varchar(50) not null
 	,[login] varchar(100) not null
-	,estado_empleado_id int CONSTRAINT FK_empleado_estado_empleado FOREIGN KEY (estado_empleado_id) REFERENCES estado_empleado(id_estado_empleado)
+	,estado_empleado_id int not null CONSTRAINT FK_empleado_estado_empleado FOREIGN KEY (estado_empleado_id) REFERENCES estado_empleado(id_estado_empleado)
 )
 GO
 CREATE TABLE actividad(
@@ -97,7 +97,7 @@ CREATE TABLE ticket(
 	,fecha_creacion datetime
 	,fecha_resolucion datetime
 	,fecha_cierre datetime
-	,cumple_sla bit
+	,cumple_sla int
 
 )
 GO
