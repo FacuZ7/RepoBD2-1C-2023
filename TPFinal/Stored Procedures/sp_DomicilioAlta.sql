@@ -10,14 +10,23 @@ CREATE PROCEDURE dbo.sp_DomicilioAlta
 	,@piso varchar(10)
 	,@departamento varchar(10)
 AS
-	INSERT INTO domicilio(
-		calle
-		,numero
-		,piso
-		,departamento
-	)VALUES(
-		@calle 
-		,@numero 
-		,@piso 
-		,@departamento 
-	)
+	BEGIN TRY
+		
+		INSERT INTO domicilio(
+			calle
+			,numero
+			,piso
+			,departamento
+		)VALUES(
+			@calle 
+			,@numero 
+			,@piso 
+			,@departamento 
+		)
+				
+	END TRY
+	BEGIN CATCH
+		SELECT 
+			ERROR_NUMBER() AS NUMERO_ERROR,
+			ERROR_MESSAGE() AS MENSAJE_ERROR
+	END CATCH

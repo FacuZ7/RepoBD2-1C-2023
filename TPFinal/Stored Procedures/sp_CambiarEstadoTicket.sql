@@ -11,48 +11,53 @@ CREATE PROCEDURE dbo.sp_CambiarEstadoTicket(
 	)
 
 AS
-	DECLARE
-	@se_puede int, @es_duenio int, @estado_anterior_id int
-	IF EXISTS (SELECT * from ticket where @id_ticket = id_ticket)
-	BEGIN
-		SELECT @estado_anterior_id = estado_ticket_id from ticket where @id_ticket = id_ticket
-		 set @se_puede = dbo.chk_Cambio_Estado_Ticket(@estado_anterior_id, @estado_ticket_id)
-		 IF @se_puede = 1
-		 BEGIN
-			SELECT @es_duenio = COUNT(*) from ticket
-			WHERE id_ticket = @id_ticket and @empleado_id = empleado_id
-			IF @es_duenio = 1
-			BEGIN
-				UPDATE ticket
-				SET estado_ticket_id = @estado_ticket_id
-				WHERE @id_ticket = id_ticket
-				exec dbo.sp_EnviarNotificacion @id_ticket, @estado_ticket_id
-				IF @estado_ticket_id = 5
+	BEGIN TRY
+		DECLARE
+		@se_puede int, @estado_anterior_id int
+		IF EXISTS (SELECT * from ticket where @id_ticket = id_ticket)
+		BEGIN
+			SELECT @estado_anterior_id = estado_ticket_id from ticket where @id_ticket = id_ticket
+			 set @se_puede = dbo.chk_Cambio_Estado_Ticket(@estado_anterior_id, @estado_ticket_id)
+			 IF @se_puede = 1
+			 BEGIN
+				IF EXISTS (SELECT * from ticket
+				WHERE id_ticket = @id_ticket and @empleado_id = empleado_id)
 				BEGIN
 					UPDATE ticket
-					SET fecha_cierre = GETDATE()
-					WHERE id_ticket = @id_ticket
+					SET estado_ticket_id = @estado_ticket_id
+					WHERE @id_ticket = id_ticket
+					exec dbo.sp_EnviarNotificacion @id_ticket, @estado_ticket_id
+					IF @estado_ticket_id = 5
+					BEGIN
+						UPDATE ticket
+						SET fecha_cierre = GETDATE()
+						WHERE id_ticket = @id_ticket
+					END
+					ELSE IF @estado_ticket_id = 4
+					BEGIN
+						UPDATE ticket
+						SET fecha_resolucion = GETDATE()
+						WHERE id_ticket = @id_ticket
+					END
 				END
-				ELSE IF @estado_ticket_id = 4
+				ELSE
 				BEGIN
-					UPDATE ticket
-					SET fecha_resolucion = GETDATE()
-					WHERE id_ticket = @id_ticket
+					RAISERROR('El cambio solo puede realizarlo el dueño del ticket',16,1)
 				END
-			END
-			ELSE
-			BEGIN
-				PRINT 'El cambio solo puede realizarlo el dueño del ticket'
-			END
-		 END
-		 ELSE
-		 BEGIN
-			PRINT 'No es posible cambiar a estado ingresado.'
-		 END
-	END
-	ELSE
-	BEGIN
-	PRINT 'El ticket ingresado no existe'
-	END
-
+			 END
+			 ELSE
+			 BEGIN
+				RAISERROR('No es posible cambiar a estado ingresado.',16,1)
+			 END
+		END
+		ELSE
+		BEGIN
+			RAISERROR('El ticket ingresado no existe',16,1)
+		END
+	END TRY
+	BEGIN CATCH
+			SELECT
+			ERROR_NUMBER() AS Numero_Error,
+			ERROR_MESSAGE() AS Mensaje_Error 
+	END CATCH
 	

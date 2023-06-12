@@ -10,9 +10,17 @@ CREATE PROCEDURE dbo.sp_EnviarNotificacion(
 	)
 
 AS
-	INSERT INTO notificacion_cambio_estado
-	VALUES(
-	@id_ticket
-	,@estado_ticket_id
-	,GETDATE()
-	)
+	BEGIN TRY
+
+		INSERT INTO notificacion_cambio_estado
+		VALUES(
+		@id_ticket
+		,@estado_ticket_id
+		,GETDATE()
+		)
+	END TRY
+	BEGIN CATCH
+		SELECT
+			ERROR_NUMBER() AS Numero_Error,
+			ERROR_MESSAGE() AS Mensaje_Error 
+	END CATCH

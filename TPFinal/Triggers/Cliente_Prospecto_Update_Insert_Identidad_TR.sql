@@ -7,6 +7,8 @@ ON cliente_prospecto
 FOR INSERT, UPDATE
 AS
 BEGIN
+	
+	
     IF EXISTS (
         SELECT 1
         FROM cliente_prospecto cp
@@ -14,8 +16,10 @@ BEGIN
         WHERE cp.tipo_documento_id = i.tipo_documento_id AND cp.nro_documento = i.nro_documento
     )
     BEGIN
-        RAISERROR ('Ya existe un cliente prospecto con el mismo tipo de documento o número de documento', 16, 1)
-        ROLLBACK TRANSACTION
-        RETURN
+       RAISERROR ('Ya existe un cliente prospecto con el mismo tipo de documento o número de documento', 16, 1)
+       RETURN
     END
+	
+	
+	
 END

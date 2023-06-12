@@ -19,6 +19,7 @@ AS
 	if @telefono = '' OR @calle = '' OR @numero = '' OR @piso = '' OR @departamento = '' 
 	BEGIN
 	PRINT 'Alguno de los datos ingresados esta vacio.'
+
 	END
 	ELSE 
 	BEGIN
@@ -32,7 +33,7 @@ AS
 
 			if @email is null AND @fecha_nac is null
 			BEGIN
-			PRINT 'No se puede realizar la operacion. El prospecto no tiene ingresado su email o fecha de nacimiento.'
+			RAISERROR('No se puede realizar la operacion. El prospecto no tiene ingresado su email o fecha de nacimiento.', 16,1)
 			END
 
 			ELSE
@@ -49,7 +50,7 @@ AS
 				begin
 					if @telefono is null
 					begin 
-						print 'Para el servicio ingresado, es de necesidad que ingrese un telefono'
+						RAISERROR('Para el servicio ingresado, es de necesidad que ingrese un telefono',16,1)
 					end
 					else
 					begin

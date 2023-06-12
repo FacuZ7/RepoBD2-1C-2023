@@ -59,8 +59,11 @@ AS
 	END
 	ELSE
 	BEGIN
-		PRINT 'El cliente no posee el servicio ingresado.'
-		ROLLBACK 
+		
+		SELECT
+			ERROR_NUMBER() AS Numero_Error,
+			ERROR_MESSAGE() AS Mensaje_Error 
+		
 	END
 
 
