@@ -15,10 +15,10 @@ CREATE PROCEDURE dbo.sp_IngresarServicio (
 )
 
 AS
-
+	BEGIN TRY
 	if @telefono = '' OR @calle = '' OR @numero = '' OR @piso = '' OR @departamento = '' 
 	BEGIN
-	PRINT 'Alguno de los datos ingresados esta vacio.'
+	RAISERROR('Alguno de los datos ingresados esta vacio.',16,1)
 
 	END
 	ELSE 
@@ -88,4 +88,9 @@ AS
 					end
 			END
 	END
-
+	END TRY
+	BEGIN CATCH
+		SELECT
+			ERROR_NUMBER() AS Numero_Error,
+			ERROR_MESSAGE() AS Mensaje_Error 
+	END CATCH

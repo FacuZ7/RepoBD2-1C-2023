@@ -20,8 +20,6 @@ AS
 		RAISERROR('Alguno de los datos ingresados esta vacio.', 16, 1)
 		 
 		END
-		ELSE 
-		BEGIN
 		insert into cliente_prospecto VALUES(
 		 @nombre
 		 ,@apellido
@@ -31,7 +29,7 @@ AS
 		 ,@fecha_nac
 		 ,3	
 		)
-		END
+		
 	END TRY
 	BEGIN CATCH
 		
