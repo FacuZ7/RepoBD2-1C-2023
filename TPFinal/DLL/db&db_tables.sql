@@ -109,8 +109,8 @@ CREATE TABLE ticket_actividad(
 GO
 CREATE TABLE notificacion_cambio_estado(
 	id_notificacion_cambio_estado int identity(1,1) primary key
-	,ticket_id int CONSTRAINT FK_notificacion_cambio_estado_ticket FOREIGN KEY (ticket_id) REFERENCES ticket(id_ticket)
-	,estado_a_cambiar int CONSTRAINT FK_notificacion_cambio_estado_estado_ticket FOREIGN KEY (estado_a_cambiar) REFERENCES estado_ticket(id_estado_ticket)
+	,ticket_id int not null CONSTRAINT FK_notificacion_cambio_estado_ticket FOREIGN KEY (ticket_id) REFERENCES ticket(id_ticket)
+	,estado_a_cambiar int not null CONSTRAINT FK_notificacion_cambio_estado_estado_ticket FOREIGN KEY (estado_a_cambiar) REFERENCES estado_ticket(id_estado_ticket)
 	,fecha datetime 
 )
 
