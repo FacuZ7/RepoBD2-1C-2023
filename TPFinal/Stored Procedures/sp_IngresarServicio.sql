@@ -23,7 +23,8 @@ AS
 	END
 	ELSE 
 	BEGIN
-
+		IF EXISTS(SELECT * FROM cliente_prospecto WHERE @cliente_id = id_cliente_prospecto)
+		BEGIN
 			Declare 
 			@email varchar(100)
 			,@fecha_nac date 
@@ -32,9 +33,9 @@ AS
 			WHERE @cliente_id = id_cliente_prospecto
 
 			if @email is null AND @fecha_nac is null
-			BEGIN
-			RAISERROR('No se puede realizar la operacion. El prospecto no tiene ingresado su email o fecha de nacimiento.', 16,1)
-			END
+				BEGIN
+				RAISERROR('No se puede realizar la operacion. El prospecto no tiene ingresado su email o fecha de nacimiento.', 16,1)
+				END
 
 			ELSE
 			BEGIN
@@ -55,25 +56,25 @@ AS
 					else
 					begin
 					insert into cliente_servicio VALUES(
-				@cliente_id,
-				@servicio_id,
-				@telefono,
-				@id_domicilio,
-				GETDATE(),
-				1
-				)
+					@cliente_id,
+					@servicio_id,
+					@telefono,
+					@id_domicilio,
+					GETDATE(),
+					1
+					)
 					end
 				end
 				else
 				begin
-				insert into cliente_servicio VALUES(
-				@cliente_id,
-				@servicio_id,
-				null,
-				@id_domicilio,
-				GETDATE(),
-				1
-				)
+					insert into cliente_servicio VALUES(
+					@cliente_id,
+					@servicio_id,
+					null,
+					@id_domicilio,
+					GETDATE(),
+					1
+					)
 				end
 				Declare 
 				@estado_cliente int
@@ -86,6 +87,11 @@ AS
 					set estado_cliente_id = 1
 					where @cliente_id = id_cliente_prospecto
 					end
+				END
+			END
+			ELSE
+			BEGIN
+				RAISERROR('Se debe ingresar el cliente antes de generar el ticket.',16,1)
 			END
 	END
 	END TRY
