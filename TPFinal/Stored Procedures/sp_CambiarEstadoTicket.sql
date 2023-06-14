@@ -22,7 +22,7 @@ AS
 		
 		IF EXISTS (SELECT * from ticket where @id_ticket = id_ticket)
 		BEGIN
-
+		
 			SELECT @estado_anterior_id = estado_ticket_id
 			from ticket 
 			where @id_ticket = id_ticket
@@ -75,15 +75,16 @@ AS
 			RAISERROR('El ticket ingresado no existe',16,1)
 		END
 
-	COMMIT TRAN
+	COMMIT
 
 	END TRY
 
 	BEGIN CATCH
-		
-		
-		ROLLBACK TRAN
+
+		ROLLBACK TRAN;
 		THROW
+		
+		
 
 	END CATCH
 	

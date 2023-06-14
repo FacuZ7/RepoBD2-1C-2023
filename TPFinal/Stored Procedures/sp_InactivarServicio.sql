@@ -39,11 +39,11 @@ AS
 				RAISERROR('El numero de servicio ingresado no existe o ya se encuentra inactivo.',16,1)
 			END
 
-		COMMIT TRAN
+		COMMIT
 	END TRY 
 	BEGIN CATCH
 
-		ROLLBACK TRAN
+		ROLLBACK TRAN;
 		THROW
 
 	END CATCH

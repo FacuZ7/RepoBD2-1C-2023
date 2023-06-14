@@ -30,10 +30,10 @@ AS
 			BEGIN
 				RAISERROR('No se pudo reasignar el ticket porque el ticket seleccionado no existe o no es el dueño del ticket', 16, 1)
 			END
-		COMMIT TRAN
+		COMMIT
 	END TRY
 	BEGIN CATCH
-		ROLLBACK TRAN
+		ROLLBACK TRAN;
 		THROW
 	END CATCH
 	

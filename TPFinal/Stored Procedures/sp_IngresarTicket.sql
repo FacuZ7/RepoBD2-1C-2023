@@ -64,10 +64,10 @@ AS
 				RAISERROR('El cliente no posee el servicio ingresado',16,1)
 			END
 
-		COMMIT TRAN
+		COMMIT 
 	END TRY
 	BEGIN CATCH
-		ROLLBACK TRAN
+		ROLLBACK TRAN;
 		THROW
 	END CATCH
 	

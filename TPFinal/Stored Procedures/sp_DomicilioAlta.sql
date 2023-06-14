@@ -23,9 +23,9 @@ AS
 				,@piso 
 				,@departamento 
 			)
-		COMMIT TRAN		
+		COMMIT		
 	END TRY
 	BEGIN CATCH
-		ROLLBACK TRAN
+		ROLLBACK TRAN;
 		THROW
 	END CATCH

@@ -18,9 +18,9 @@ AS
 			,@estado_ticket_id
 			,GETDATE()
 			)
-		COMMIT TRAN
+		COMMIT
 	END TRY
 	BEGIN CATCH
-		ROLLBACK TRAN
+		ROLLBACK TRAN;
 		THROW
 	END CATCH

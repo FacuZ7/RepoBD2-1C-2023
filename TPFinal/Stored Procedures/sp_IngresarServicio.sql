@@ -106,11 +106,11 @@ AS
 						RAISERROR('Se debe ingresar el cliente antes de generar el ticket.',16,1)
 					END
 			END
-		COMMIT TRAN
+		COMMIT
 	END TRY
 	BEGIN CATCH
 		
-		ROLLBACK TRAN
+		ROLLBACK TRAN;
 		THROW
 
 	END CATCH
