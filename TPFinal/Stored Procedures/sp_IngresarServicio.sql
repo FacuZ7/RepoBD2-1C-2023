@@ -40,9 +40,18 @@ AS
 
 					ELSE
 					BEGIN
-						EXEC dbo.sp_DomicilioAlta @calle, @numero, @piso, @departamento
 						Declare 
 						@id_domicilio int
+						if @piso is null
+						begin
+						set @piso = ''
+						end
+						if @departamento is null
+						begin
+						set @departamento = ''
+						end
+						EXEC dbo.sp_DomicilioAlta @calle, @numero, @piso, @departamento
+						
 						select @id_domicilio= id_domicilio from domicilio 
 						where @calle = calle and @numero = numero and @piso = piso and @departamento = departamento
 			
@@ -59,7 +68,16 @@ AS
 							else
 							begin
 
-							insert into cliente_servicio VALUES(
+							insert into cliente_servicio 
+							(
+							cliente_id
+							,servicio_id
+							,telefono
+							,domicilio_id
+							,fecha_inicio
+							,estado_servicio_id
+							)
+							VALUES(
 							@cliente_id,
 							@servicio_id,
 							@telefono,

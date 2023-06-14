@@ -15,7 +15,7 @@ AS
 			WHERE nro_cliente_servicio = @nro_cliente_servicio and estado_servicio_id = 1)
 			BEGIN
 				DECLARE
-				@cliente_id int
+				@cliente_id int, @count int
 				SELECT @cliente_id = cliente_id from cliente_servicio
 				WHERE @nro_cliente_servicio = nro_cliente_servicio
 		
@@ -23,10 +23,11 @@ AS
 				SET estado_servicio_id = 2
 				WHERE nro_cliente_servicio = @nro_cliente_servicio
 
-				IF EXISTS (SELECT * from cliente_servicio
-				WHERE @cliente_id = cliente_id and estado_servicio_id = 1)
+				SELECT @count = COUNT(nro_cliente_servicio) from cliente_servicio
+				WHERE @cliente_id = cliente_id and estado_servicio_id = 1
+				IF @count = 0
 				BEGIN
-
+					
 					UPDATE cliente_prospecto
 					SET estado_cliente_id = 2
 					WHERE @cliente_id = id_cliente_prospecto

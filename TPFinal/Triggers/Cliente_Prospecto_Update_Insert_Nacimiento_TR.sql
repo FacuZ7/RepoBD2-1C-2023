@@ -38,15 +38,15 @@ BEGIN
 			begin -- es el mes de tu cumpleaños
 				if @Dias < 0 
 				begin -- es el día de tu cumpleaños
-					print 'No es mayor a 18 años'
-					rollback
+					RAISERROR( 'No es mayor a 18 años',16,1)
+					
 				end
 			end
 		end
 	end
 	if @Anos < 18
 	begin
-		print 'No es mayor a 18 años'
-		rollback
+		RAISERROR( 'No es mayor a 18 años',16,1)
+		
 	end
 END

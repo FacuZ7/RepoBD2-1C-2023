@@ -82,13 +82,15 @@ INSERT INTO cliente_prospecto VALUES
 	,('Carlos','Baute',1,'87593105','cbaute@gmail.com','1987/05/02',1) --activo
 	,('Adriana','Cantilo',2,'35042689','adriana@yaju.com','1960/09/30',2) --inactivo
 	,('Mauro','Neuer',1,'71538960','neuer@live.com.ar','1981/01/15',1) --activo
-	,('Hernan','Vilouta',2,'35345661','hernan@hotmail.com','2001/09/11',1) --activo
+	,('Hernan','Vilouta',2,'35345661','hernan@hotmail.com','2001/09/11',2) --inactivo
 
 
 INSERT INTO cliente_servicio (cliente_id, servicio_id, telefono, domicilio_id, fecha_inicio, estado_servicio_id) VALUES
 (4, 1, '123456789', 1, '2023/01/01', 1),
 (2, 2, null , 2, '2020/07/16', 1),
-(3, 3, '555555555', 3, GETDATE(), 2);
+(3, 3, '555555555', 3, GETDATE(), 2),
+(4, 2, null, 1, '2023/01/01', 1),
+(4, 3, '123456788', 1, '2023/01/01', 1);
 
 
 INSERT INTO sla VALUES
