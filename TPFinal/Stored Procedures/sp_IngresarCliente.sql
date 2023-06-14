@@ -15,26 +15,36 @@ CREATE PROCEDURE dbo.sp_IngresarCliente (
 
 AS
 	BEGIN TRY
-		if @nombre = '' OR @apellido = '' OR @tipo_documento_id = '' OR @nro_documento = '' 
-		BEGIN
-		RAISERROR('Alguno de los datos ingresados esta vacio.', 16, 1)
+		BEGIN TRAN
+			if @nombre = '' OR @apellido = '' OR @tipo_documento_id = '' OR @nro_documento = '' 
+			BEGIN
+			RAISERROR('Alguno de los datos ingresados esta vacio.', 16, 1)
 		 
-		END
-		insert into cliente_prospecto VALUES(
-		 @nombre
-		 ,@apellido
-		 ,@tipo_documento_id
-		 ,@nro_documento
-		 ,@email
-		 ,@fecha_nac
-		 ,3	
-		)
-		
+			END
+			insert into cliente_prospecto 
+			(
+			nombre
+			,apellido
+			,tipo_documento_id
+			,nro_documento
+			,email
+			,fecha_nac
+			,estado_cliente_id
+			)
+			VALUES(
+			 @nombre
+			 ,@apellido
+			 ,@tipo_documento_id
+			 ,@nro_documento
+			 ,@email
+			 ,@fecha_nac
+			 ,3	
+			)
+		COMMIT TRAN
 	END TRY
 	BEGIN CATCH
 		
+		ROLLBACK TRAN
+		THROW
 	
-	SELECT 
-			ERROR_NUMBER() AS Numero_Error,
-			ERROR_MESSAGE() AS Mensaje_Error 
 	END CATCH

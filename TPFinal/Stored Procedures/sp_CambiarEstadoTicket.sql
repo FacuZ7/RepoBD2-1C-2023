@@ -13,19 +13,17 @@ CREATE PROCEDURE dbo.sp_CambiarEstadoTicket(
 AS
 		DECLARE
 		@se_puede int, 
-		@estado_anterior_id int, 
-		@fecha_cierre datetime,
-		@fecha_resolucion datetime,
-		@cumple_sla int = null
+		@estado_anterior_id int
+		
 	
 	BEGIN TRY
 	BEGIN TRAN
 		
+		
 		IF EXISTS (SELECT * from ticket where @id_ticket = id_ticket)
 		BEGIN
-			SELECT @estado_anterior_id = estado_ticket_id, 
-				@fecha_cierre = fecha_cierre, 
-				@fecha_resolucion = fecha_resolucion 
+
+			SELECT @estado_anterior_id = estado_ticket_id
 			from ticket 
 			where @id_ticket = id_ticket
 
@@ -33,33 +31,17 @@ AS
 
 			IF @se_puede = 1
 			BEGIN
+
 				IF EXISTS (SELECT * from ticket
 				WHERE id_ticket = @id_ticket and @empleado_id = empleado_id)
 				BEGIN
-						IF @estado_ticket_id = 5 
-						BEGIN 
-							SELECT @fecha_cierre = GETDATE(), 
-							@cumple_sla = dbo.fn_cumple_sla(@id_ticket,GETDATE())
-						END
-						ELSE IF @estado_ticket_id = 4
-						BEGIN
-							SELECT @fecha_resolucion = GETDATE(), 
-							@cumple_sla = dbo.fn_cumple_sla(@id_ticket,GETDATE())
-						END
+						
 						
 						UPDATE ticket
-						SET fecha_resolucion = @fecha_resolucion,
-							cumple_sla= @cumple_sla,
-							fecha_cierre = @fecha_cierre,
-							estado_ticket_id = @estado_ticket_id
-						WHERE id_ticket = @id_ticket
-
-						exec dbo.sp_EnviarNotificacion @id_ticket, @estado_ticket_id
-				
-						/*UPDATE ticket
 						SET estado_ticket_id = @estado_ticket_id
 						WHERE @id_ticket = id_ticket
 						exec dbo.sp_EnviarNotificacion @id_ticket, @estado_ticket_id
+
 						IF @estado_ticket_id = 5
 						BEGIN
 							UPDATE ticket
@@ -67,6 +49,7 @@ AS
 							cumple_sla= dbo.fn_cumple_sla(@id_ticket,GETDATE())
 							WHERE id_ticket = @id_ticket
 						END
+
 						ELSE IF @estado_ticket_id = 4
 						BEGIN
 							UPDATE ticket
@@ -74,7 +57,7 @@ AS
 							cumple_sla= dbo.fn_cumple_sla(@id_ticket,GETDATE())
 							WHERE id_ticket = @id_ticket
 						END
-						*/
+						
 	
 				END
 				ELSE
@@ -91,10 +74,16 @@ AS
 		BEGIN
 			RAISERROR('El ticket ingresado no existe',16,1)
 		END
+
 	COMMIT TRAN
+
 	END TRY
+
 	BEGIN CATCH
-		THROW
+		
+		
 		ROLLBACK TRAN
+		THROW
+
 	END CATCH
 	
