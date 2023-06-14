@@ -17,10 +17,6 @@ BEGIN
 	,@apellido_inserted varchar(50)
 	,@tipo_documento_id_inserted int
 	,@nro_documento_inserted varchar(8)
-	,@nombre varchar(50)
-	,@apellido varchar(50)
-	,@tipo_documento_id int
-	,@nro_documento varchar(8)
 
 	select 
 		@id_cliente_prospecto_inserted = id_cliente_prospecto
@@ -31,20 +27,9 @@ BEGIN
 	from 
 		inserted
 
-	select 
-		@nombre = nombre
-		,@apellido = apellido
-		,@tipo_documento_id= tipo_documento_id
-		,@nro_documento = nro_documento
-	from 
-		cliente_prospecto
-	where
-		id_cliente_prospecto = @id_cliente_prospecto_inserted
-
-
-	if @nombre <> @nombre_inserted OR @apellido <> @apellido_inserted OR @tipo_documento_id <> @tipo_documento_id_inserted
-	OR @nro_documento <> @nro_documento_inserted
+	IF UPDATE(nombre) OR UPDATE(apellido) OR UPDATE(tipo_documento_id) OR UPDATE(nro_documento)
 	begin
+		
 		Declare
 		@Estado int
 		select @Estado = estado_cliente_id 
