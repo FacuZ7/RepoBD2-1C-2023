@@ -13,7 +13,7 @@ ti.id_ticket
 	,se.descripcion_servicio
 	,ti.fecha_creacion
 	,sl.tiempo_sla 
-	,DATEDIFF(day,ti.fecha_creacion,getdate()) as dias_transcurridos
+	,DATEDIFF(HOUR,ti.fecha_creacion,getdate()) as horas_transcurridas
 	,CASE WHEN dbo.fn_cumple_sla(ti.id_ticket,GETDATE()) = 0 THEN 'NO' ELSE 'SI' END as cumple_sla
 from
 	ticket as ti

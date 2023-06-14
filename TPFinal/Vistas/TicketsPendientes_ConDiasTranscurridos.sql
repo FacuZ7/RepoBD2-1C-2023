@@ -1,3 +1,6 @@
+USE TP_FINAL_GRUPO5
+GO
+
 CREATE VIEW TicketsPendientes_ConDiasTranscurridos
 AS
 select

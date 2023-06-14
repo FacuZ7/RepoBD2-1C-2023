@@ -1,3 +1,5 @@
+USE TP_FINAL_GRUPO5
+
 if exists (select * from dbo.sysobjects where id= object_id(N'[dbo].[Cliente_Prospecto_Update_Insert_Nacimiento_TR]') and OBJECTPROPERTY(id, N'IsTrigger') = 1)
 drop trigger [dbo].[Cliente_Prospecto_Update_Insert_Nacimiento_TR]
 GO

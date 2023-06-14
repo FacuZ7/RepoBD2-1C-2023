@@ -26,7 +26,7 @@ BEGIN
 	
 	
 	DECLARE CUR CURSOR FOR 
-	SELECT estado_a_cambiar, fecha FROM notificacion_cambio_estado
+	SELECT estado_a_informar, fecha FROM notificacion_cambio_estado
 	WHERE ticket_id = @id_ticket ORDER BY fecha ASC
 
 	OPEN CUR 

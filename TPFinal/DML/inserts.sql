@@ -109,7 +109,13 @@ INSERT INTO sla VALUES
 (5,3,24),
 (6,1,12),
 (6,2,72),
-(6,3,24)
+(6,3,24),
+(1,null,24),
+(2,null,12),
+(3,null,72),
+(4,null,24),
+(5,null,48),
+(6,null,10)
 
 INSERT INTO empleado VALUES
 ('Cristian','Bragarnik','CBRAGARNIK',1),
